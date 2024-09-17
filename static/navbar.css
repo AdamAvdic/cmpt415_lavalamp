@@ -1,0 +1,27 @@
+/* Navbar styles */
+div {
+    width: 100%;
+    background-color: #282c34;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #61dafb;
+}
+
+/* Padding for content below the fixed navbar */
+body {
+    padding-top: 70px; /* Adjust this based on the height of your navbar */
+}
+
+/* Alternatively, you can target the main content area */
+#content {
+    padding-top: 70px; /* Add this if you'd rather target the content block */
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{room.name}}</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+</head>
+<body>
+    <div id="container">
+        <div id="left" class="bubble">Hello there! Today, we are going to talk 
+            about something called the "discount rate." Now, I know that sounds like a big, fancy term, 
+            but don't worry - it's actually quite easy to understand once we break it down together! 
+            Imagine that your piggy bank has $50 today, and you expect to have $60 in one year 
+            because you will save $10 each month. But what if someone asked you, 
+            "How much is that extra $10 worth to me now?" That's where the discount rate comes in! 
+            It helps us figure out how much that money is worth today instead of waiting for tomorrow. 
+            So, let's define the discount rate: Discount rate = A special interest rate used to find out
+             how much money received in the future is worth today. Now, you might wonder, "Why do we need 
+             this magical number?" Well, it's crucial when adults make decisions about whether to invest 
+             their money in things like building new schools, starting businesses, or even buying toys! 
+             By using the discount rate, grown-ups can compare different opportunities and choose the best 
+             ones. Next up, let's see how we calculate the discount rate with a simple formula: Future Value / 
+             (1 + Discount Rate)^Number of Years = Present Value Don't panic! We won't dive into those strange 
+             symbols just yet. Instead, let's think of them as tools to help us answer questions like, "Is it 
+             better to have $50 right now or wait a year to get $60?" If we rearrange the formula, we can discover 
+             the discount rate: (Future Value / Present Value) ^ (1 / Number of Years) - 1 = Discount Rate Let's try 
+             an example with our piggy bank scenario: You have $50 today, and you'll have $60 in one year ($10 saved
+              per month). So, what's the discount rate for getting that extra $10 immediately instead of waiting a 
+              whole year? Using the formula: ($60 / $50) ^ (1 / 1) - 1 = Discount Rate = 1.2 ^ 1 - 1 = 1.2 - 1 = 0.2 
+              or 20% Wow! That means if someone offered to give you an extra $10 immediately instead of having to wait 
+              a year, it would be like earning a 20% return on investment. Sounds pretty good, huh? And remember, the
+               discount rate isn't just for piggy banks; grown-ups use it all the time to decide which projects are 
+               worthy of their hard-earned dollars. Pretty cool, right?
+             Thanks for joining me on this journey through the world of the discount rate!</div>
+        <div id="center" class="bubble">Hello young scholars! Today, 
+            let's talk about something fun and useful - functions and their inverses. You may wonder, 
+            "What are those?" Well, imagine you have a magic box that changes every number you put into it. T
+            his magic box or "function" takes your number, performs some secret operation, and gives you a new number. 
+            An "inverse" function undoes whatever the magic box did so you can get back your original number. Cool, 
+            huh?! Now, there's a rule for creating our special magic boxes. A function should follow the 'One Input, 
+            One Output' rule. That means if you give it a 3, it cannot spit out both a 6 and a 10; it must give either a 
+            6 or a 10, but consistently. Functions that follow this rule are called 'one-to-one.' So, why can't all functions 
+            have an inverse? Imagine having two different magic boxes doing opposite things. When you put in a 2, sometimes one 
+            box returns a 4 while the other returns a 6 – which output should the inverse choose? It can't decide because these 
+            conflicting boxes broke our 'One Input, One Output' rule. Thus, a function doesn’t have an inverse if it's not a 
+            one-to-one function. To check if our magic box follows the rule, draw some lines horizontally across its picture 
+            (the 'graph'). If any line touches the graph at more than one spot, then the function isn't one-to-one and won't
+             have an easy-peasy inverse. But if no line crosses the graph twice, congratulations! Your function obeys the rule,
+              and it deserves a fantastic inverse! Let's practice finding the inverses of some friendly grade-school functions 
+            together soon! Keep exploring, keep learning!</div>
+        <div id="right" class="bubble">Let's delve into the 
+            concept of linear interpolation and its application in finding interest rates, using the dialogue between 
+            the users "ainster31" and "Ray Vickson." We will break down the conversation to grasp the underlying 
+            mathematical principles and methods. Linear interpolation is a technique used to estimate values between 
+            two known points in a dataset. It fits a straight line through these two points and uses this line to 
+            approximate unknown values within the interval spanned by those points. This approach is particularly 
+            useful when trying to determine the root (zero) of a function, which is what the user "ainster31" was 
+            interested in discovering. To apply linear interpolation mathematically, first, identify the two known 
+            points ($x_1, f_1$) and ($x_2, f_2$). These points correspond to the values where your function is defined. 
+            Next, calculate the slope of the linear function passing through them: $$\text{Slope} = \frac{\Delta y}{\Delta x}=
+            \frac{f_2-f_1}{x_2-x_1}.$$ After determining the slope, you can express the linear function in point-slope form, 
+            which looks like this: $$f(x)=f_1+\frac{\Delta y}{\Delta x}(x-x_1).$$ Now, if you want to find the root (denoted as
+             $x_0$) of the linear function, set $f(x)$ equal to zero and solve for $x$: $$f(x_0)=\cancel{f}_1-\cancel{f}_1\cdot
+             \left(\frac{x_0-x_1}{x_2-x_1}\right)^{-1}=0.$$ Simplifying leads to the following expression: $$\frac{x_0-x_1}
+             {x_2-x_0}=-\frac{f_1}{f_2},$$ from which you can isolate $x_0$: $$x_0=\frac{f_2x_1-f_1x_2}{f_2-f_1}.$$ 
+             Returning to our initial example, "ains" asked about computing the Net Present Worth (NPW), 
+             specifically regarding how linear interpolation was utilized in this computation. By employing 
+             the formula above, you can find the present worth factor ($x_0$), taking into account different 
+             interest rates. Once obtained, multiply the net cash inflows by the 
+            corresponding present worth factors and sum up the results to obtain the total Net Present Worth (NPW).</div>
+    </div>
+    <script src = "https://cpde.jquery.com/jquery-3.7.1.slim.js"><script>
+    <script src="{% static 'main.js' %}"></script>
+</body>
+</html>
