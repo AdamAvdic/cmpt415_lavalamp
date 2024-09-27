@@ -8,3 +8,6 @@ bubbles.forEach((bubble) => {
     bubble.style.animationDelay = `${randomDelay}s`;
     bubble.style.animationDuration = `${randomDuration}s`;
 });
+
+//experimenting
+

@@ -1,9 +1,9 @@
 from django.shortcuts import render
 
 rooms = [
-    {'id':1, 'name':'prompt 1'},
-    {'id':2, 'name':'prompt 2'},
-    {'id':3, 'name':'prompt 3'},
+    {'id':1, 'name':'ChatGPT-3'},
+    {'id':2, 'name':'LLaMa'},
+    {'id':3, 'name':'RoBERTA'},
 ]
 
 # Create your views here.

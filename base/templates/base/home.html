@@ -1,22 +1,138 @@
-
-
-{%block content%}
-
+{% block content %}
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{room.name}}</title>
+    <title>{{ room.name }}</title>
     <link rel="stylesheet" href="{% static 'button.css' %}">
-</head>
+    <script src="{% static 'main.js' %}"></script>
+    <style>
+        /* Styles for fade transition */
+        #canvas {
+            transition: opacity 1s ease-in-out; /* Fade transition for canvas */
+            position: absolute; /* Position it on top */
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+        }
 
-<div>
-    {%for room in rooms%}
-        <div>
-            <h5>{{room.id}} -- <a href="/room/{{room.id}}">{{room.name}}</a></h5>
+        #container {
+            display: none; /* Hide initially */
+            opacity: 0; /* Start hidden */
+            transition: opacity 1s ease-in-out; /* Fade transition for container */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" style="background: #111;"></canvas>
+
+    <!-- Main container for room list -->
+    <div id="container">
+        <!-- Header container for h1 -->
+        <div id="header-container">
+            <h1><span></span></h1>
         </div>
-    {%endfor%}
-</div>
-{%endblock content%}
+        <div id="rooms-list">
+            {% for room in rooms %}
+                <div class="room-item">
+                    <h5>{{ room.id }} -- <a href="/room/{{ room.id }}">{{ room.name }}</a></h5>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Typewriter effect script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function(event) {
+            // Array with texts to type in typewriter
+            var dataText = ["Welcome To a ", "Language Learning Model", "Data Displayer", "Please Choose Your Preferred Language Learning Model"];
+
+            // Type one text in the typewriter
+            function typeWriter(text, i, fnCallback) {
+                if (i < text.length) {
+                    document.querySelector("h1 span").innerHTML = text.substring(0, i + 1) + '<span aria-hidden="true"></span>';
+                    setTimeout(function() {
+                        typeWriter(text, i + 1, fnCallback);
+                    }, 100);
+                } else if (typeof fnCallback == 'function') {
+                    setTimeout(fnCallback, 700);
+                }
+            }
+
+            // Start a typewriter animation for a text in the dataText array
+            function StartTextAnimation(i) {
+                if (typeof dataText[i] == 'undefined') {
+                    setTimeout(function() {
+                        StartTextAnimation(0);
+                    }, 20000);
+                } else {
+                    typeWriter(dataText[i], 0, function() {
+                        StartTextAnimation(i + 1);
+                    });
+                }
+            }
+
+            // Show canvas for 5 seconds, then show container
+            setTimeout(function() {
+                // Fade out the canvas
+                var canvas = document.getElementById('canvas');
+                canvas.style.opacity = 0; // Fade out canvas
+
+                // After the fade out, hide the canvas and show the container
+                setTimeout(function() {
+                    canvas.style.display = 'none'; // Hide canvas
+                    var container = document.getElementById('container');
+                    container.style.display = 'block'; // Show container
+                    setTimeout(function() {
+                        container.style.opacity = 1; // Fade in container
+                    }, 10); // Small delay to allow display change
+                    
+                    // Start the typewriter animation after an additional delay
+                    setTimeout(function() {
+                        StartTextAnimation(0); // Start text animation after 1 second
+                    }, 1000); // Additional delay after the container fades in
+                }, 1000); // Match the transition duration of the canvas fade out
+
+            }, 5000); // 5000 ms = 5 seconds
+
+        });
+
+        // Hacker background
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        var W = window.innerWidth;
+        var H = window.innerHeight;
+
+        canvas.width = W;
+        canvas.height = H;
+
+        var fontSize = 16;
+        var columns = Math.floor(W / fontSize);
+        var drops = [];
+        for(var i=0; i<columns; i++){
+            drops.push(0);
+        }
+        var str = "JavaScript Hacking Effect";
+        function draw(){
+            context.fillStyle = "rgba(0,0,0,0.05)";
+            context.fillRect(0, 0, W, H);
+            context.fontSize = "700 " + fontSize + "px";
+            context.fillStyle = "#00cc33";
+            for(var i=0; i<columns; i++){
+                var index = Math.floor(Math.random()*str.length);
+                var x = i * fontSize;
+                var y = drops[i] * fontSize;
+                context.fillText(str[index], x, y);
+                if(y >= canvas.height && Math.random() > 0.99){
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        draw();
+        setInterval(draw, 35);
+    </script>
+</body>
+</html>
+{% endblock content %}
