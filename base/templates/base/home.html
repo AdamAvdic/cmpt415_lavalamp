@@ -6,37 +6,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ room.name }}</title>
-    <link rel="stylesheet" href="{% static 'button.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'main.css' %}"> {% endcomment %}
     <script src="{% static 'main.js' %}"></script>
     <style>
         /* Styles for fade transition */
         #canvas {
             transition: opacity 1s ease-in-out; /* Fade transition for canvas */
             position: absolute; /* Position it on top */
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
+            width: 100vw; /* Full width of the viewport */
+            height: 100vh; /* Full height of the viewport */
+            background: #111; /* Ensure background is dark */
+            border: none; /* Remove any potential borders */
+            margin: 0; /* Remove margin */
+            padding: 0; /* Remove padding */
+            box-sizing: border-box; /* Ensure no border-box model adjustments */
+        }
+        
+        /* Remove scrollbars and overflow */
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent overflow, which causes scrollbars */
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,1)
         }
 
         #container {
             display: none; /* Hide initially */
             opacity: 0; /* Start hidden */
             transition: opacity 1s ease-in-out; /* Fade transition for container */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); /* Add a shadow for effect */
+            color: white;
+        }
+
+        h1 {
+            color: #00cc33;
+            font-size: 2rem;
+            font-family: "Space Mono", monospace;
+            margin-bottom: 20px;
+        }
+
+        #rooms-list {
+            margin-top: 20px;
+        }
+
+        .room-item h5 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .room-item h5 a {
+            color: #00cc33;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .room-item h5 a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <canvas id="canvas" style="background: #111;"></canvas>
 
-    <!-- Main container for room list -->
+    <!-- Main container for room list and typewriter effect -->
     <div id="container">
-        <!-- Header container for h1 -->
+        <!-- Header container for typewriter effect -->
         <div id="header-container">
-            <h1><span></span></h1>
+            <h1><span></span></h1> <!-- Typewriter effect target -->
         </div>
         <div id="rooms-list">
             {% for room in rooms %}
                 <div class="room-item">
-                    <h5>{{ room.id }} -- <a href="/room/{{ room.id }}">{{ room.name }}</a></h5>
+                    <h5>{{ room.id }} - <a href="/room/{{ room.id }}">{{ room.name }}</a></h5>
                 </div>
             {% endfor %}
         </div>

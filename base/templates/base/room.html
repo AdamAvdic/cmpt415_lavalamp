@@ -6,10 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ room.name }}</title>
-   <!-- <link rel="stylesheet" href="{% static 'button.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'button.css' %}"> 
     <script src="{% static 'main.js' %}"></script>
     <style>
-        /* Styles for fade transition */
         body {
             margin: 0;
             background: black; /* Set background to black */
@@ -18,47 +17,67 @@
             overflow: hidden; /* Hide overflow for a cleaner look */
         }
 
-        #canvas {
-            transition: opacity 1s ease-in-out; /* Fade transition for canvas */
-            position: absolute; /* Position it on top */
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            z-index: 1; /* Ensure canvas is on top */
+        /* Bubble styling */
+        .bubble {
+            z-index: 5;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: #00cc33; /* Green background */
+            color: black; /* Text color inside the bubble */
+            display: none; /* Hidden initially */
+            align-items: center; /* Vertical centering */
+            justify-content: center; /* Horizontal centering */
+            text-align: center; /* Center the text inside */
+            padding: 20px; /* Add some padding for text */
+            transform: translateY(-50%); /* Center the bubble vertically */
         }
 
-        #container {
-            display: none; /* Hide initially */
-            opacity: 0; /* Start hidden */
-            transition: opacity 1s ease-in-out; /* Fade transition for container */
-            white-space: pre-wrap; /* Preserve whitespace for bubble effect */
-            padding: 10px; /* Adjust padding for the text */
-            z-index: 2; /* Ensure text is above canvas */
-            position: relative; /* Position relative for z-index */
-            max-width: 600px; /* Set a maximum width for better readability */
-            margin: auto; /* Center the container */
+        /* Hacking screen canvas */
+        #canvas {
+            transition: opacity 1s ease-in-out; /* Fade transition for canvas */
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
         }
-        
-        .bubble {
-            margin: 10px 0;
-            display: none; /* Hide initially */
-            border-radius: 5px; /* Rounded corners */
-            padding: 10px 15px; /* Increase padding for better spacing */
-            background-color: rgba(0, 0, 0, 0.7); /* Slightly transparent black background */
-            border: 1px solid #00cc33; /* Green border */
-            max-width: 100%; /* Ensure bubbles don't exceed container width */
-            overflow-wrap: break-word; /* Allow long words to break onto the next line */
+
+        /* Button styling */
+        .control-button {
+            position: fixed; /* Use fixed positioning */
+            bottom: 20px; /* Position at the bottom */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Center the button */
+            padding: 10px 20px;
+            background-color: #00cc33; /* Green background for button */
+            color: black; /* Text color */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: monospace; /* Match the hacky look */
+            z-index: 10; /* Ensure button is above everything else */
+            display: none; /* Hidden initially */
+        }
+
+        .control-button:hover {
+            background-color: #008c29; /* Darker green on hover */
         }
     </style>
 </head>
 <body>
+    <!-- Hacking screen canvas -->
     <canvas id="canvas"></canvas>
 
-    <!-- Main container for room list -->
-    <div id="container">
-        <div id="left" class="bubble" data-value="HYPERPLEXED">Hello there! Today, we are going to talk about something called the "discount rate." Now, I know that sounds like a big, fancy term, but don't worry - it's actually quite easy to understand once we break it down together! Imagine that your piggy bank has $50 today, and you expect to have $60 in one year  because you will save $10 each month. But what if someone asked you, "How much is that extra $10 worth to me now?" That's where the discount rate comes in! It helps us figure out how much that money is worth today instead of waiting for tomorrow. So, let's define the discount rate: Discount rate = A special interest rate used to find outhow much money received in the future is worth today. Now, you might wonder, "Why do we need this magical number?" Well, it's crucial when adults make decisions about whether to invest their money in things like building new schools, starting businesses, or even buying toys!  By using the discount rate, grown-ups can compare different opportunities and choose the best  ones. Next up, let's see how we calculate the discount rate with a simple formula: Future Value / (1 + Discount Rate)^Number of Years = Present Value Don't panic! We won't dive into those strange symbols just yet. Instead, let's think of them as tools to help us answer questions like, "Is it better to have $50 right now or wait a year to get $60?" If we rearrange the formula, we can discover the discount rate: (Future Value / Present Value) ^ (1 / Number of Years) - 1 = Discount Rate Let's try an example with our piggy bank scenario: You have $50 today, and you'll have $60 in one year ($10 savedper month). So, what's the discount rate for getting that extra $10 immediately instead of waiting a  whole year? Using the formula: ($60 / $50) ^ (1 / 1) - 1 = Discount Rate = 1.2 ^ 1 - 1 = 1.2 - 1 = 0.2  or 20% Wow! That means if someone offered to give you an extra $10 immediately instead of having to wait a year, it would be like earning a 20% return on investment. Sounds pretty good, huh? And remember, thediscount rate isn't just for piggy banks; grown-ups use it all the time to decide which projects are  worthy of their hard-earned dollars. Pretty cool, right?Thanks for joining me on this journey through the world of the discount rate!</div>
-        <div id="center" class="bubble">Hello young scholars! Today, let's talk about something fun and useful - functions and their inverses. You may wonder,  "What are those?" Well, imagine you have a magic box that changes every number you put into it. This magic box or "function" takes your number, performs some secret operation, and gives you a new number. An "inverse" function undoes whatever the magic box did so you can get back your original number. Cool,huh?! Now, there's a rule for creating our special magic boxes. A function should follow the 'One Input, One Output' rule. That means if you give it a 3, it cannot spit out both a 6 and a 10; it must give either a 6 or a 10, but consistently. Functions that follow this rule are called 'one-to-one.' So, why can't all functions  have an inverse? Imagine having two different magic boxes doing opposite things. When you put in a 2, sometimes one box returns a 4 while the other returns a 6 – which output should the inverse choose? It can't decide because these conflicting boxes broke our 'One Input, One Output' rule. Thus, a function doesn’t have an inverse if it's not a one-to-one function. To check if our magic box follows the rule, draw some lines horizontally across its picture  (the 'graph'). If any line touches the graph at more than one spot, then the function isn't one-to-one and won't have an easy-peasy inverse. But if no line crosses the graph twice, congratulations! Your function obeys the rule,and it deserves a fantastic inverse! Let's practice finding the inverses of some friendly grade-school functions together soon! Keep exploring, keep learning!</div>
-        <div id="right" class="bubble">Let's delve into the concept of linear interpolation and its application in finding interest rates, using the dialogue between the users "ainster31" and "Ray Vickson." We will break down the conversation to grasp the underlying  mathematical principles and methods. Linear interpolation is a technique used to estimate values between  two known points in a dataset. It fits a straight line through these two points and uses this line to approximate unknown values within the interval spanned by those points. This approach is particularly useful when trying to determine the root (zero) of a function, which is what the user "ainster31" was interested in discovering. To apply linear interpolation mathematically, first, identify the two known points ($x_1, f_1$) and ($x_2, f_2$). These points correspond to the values where your function is defined. Next, calculate the slope of the linear function passing through them: $$\text{Slope} = \frac{\Delta y}{\Delta x}=\frac{f_2-f_1}{x_2-x_1}.$$ After determining the slope, you can express the linear function in point-slope form, which looks like this: $$f(x)=f_1+\frac{\Delta y}{\Delta x}(x-x_1).$$ Now, if you want to find the root (denoted as $x_0$) of the linear function, set $f(x)$ equal to zero and solve for $x$: $$f(x_0)=\cancel{f}_1-\cancel{f}_1\cdot \left(\frac{x_0-x_1}{x_2-x_1}\right)^{-1}=0.$$ Simplifying leads to the following expression: $$\frac{x_0-x_1}{x_2-x_0}=-\frac{f_1}{f_2},$$ from which you can isolate $x_0$: $$x_0=\frac{f_2x_1-f_1x_2}{f_2-f_1}.$$ Returning to our initial example, "ains" asked about computing the Net Present Worth (NPW), specifically regarding how linear interpolation was utilized in this computation. By employing the formula above, you can find the present worth factor ($x_0$), taking into account different interest rates. Once obtained, the user can implement these interpolated values to enhance their calculations, making informed decisions about potential investments or other financial aspects based on these estimates. In conclusion, linear interpolation is a powerful mathematical tool that allows users to estimate unknown values effectively. Through this methodology, individuals can gain deeper insights into their financial situations and assess the feasibility of various financial opportunities.</div>
+    <!-- Green bubble with text -->
+    <div class="bubble" id="ball1">
+        Hello there! Today, we are going to talk about something called the "discount rate." Now, I know that sounds like a big, fancy term, but don't worry - it's actually quite easy to understand once we break it down together!
     </div>
+
+    <!-- Control button for pause/play -->
+    <button class="control-button" id="toggleButton">Pause</button>
 
     <script>
         // Hacking screen effect
@@ -82,33 +101,66 @@
         }
 
         // Set an interval to continuously draw on the canvas
-        setInterval(draw, 100);
+        const hackingScreenInterval = setInterval(draw, 100);
 
-        // Function to show the text bubbles and fade out the canvas
+        // Function to fade out the hacking screen and show the bubble
         document.addEventListener("DOMContentLoaded", function () {
-            // Get all the bubble elements
-            const bubbles = document.querySelectorAll('.bubble');
-            let index = 0;
+            const bubble = document.querySelector('.bubble');
+            const button = document.getElementById('toggleButton');
 
-            // Show the container after a slight delay
+            // Show the bubble after 5 seconds and fade out the canvas
             setTimeout(() => {
-                // Fade out the canvas
-                canvas.style.opacity = 0; // Fade out effect
-                // Show the container after fading out the canvas
-                document.getElementById('container').style.display = 'block';
-                document.getElementById('container').style.opacity = 1; // Fade in effect
-            }, 5000); // Adjust this delay as needed
+                // Fade out the hacking screen
+                canvas.style.opacity = 0;
 
-            // Function to show bubbles one by one
-            function showBubble() {
-                if (index < bubbles.length) {
-                    bubbles[index].style.display = 'block'; // Show the bubble
-                    index++;
-                    setTimeout(showBubble, 3000); // Show next bubble after 3 seconds
-                }
+                // Stop the hacking screen from rendering
+                clearInterval(hackingScreenInterval);
+
+                // Show the bubble after the hacking screen fades out
+                bubble.style.display = 'flex';
+
+                // Show the button after the canvas is hidden
+                button.style.display = 'block'; // Show the button
+            }, 5000); // 5-second delay for the hacking screen
+        });
+
+        var velocityx = 3; // Control speed of the movement
+        var positionx = 0; // Initial position of the bubble
+        var ball1 = document.getElementById("ball1");
+        var isRunning = true; // Track the animation state
+        var movementInterval;
+
+        // Function to move the bubble left to right
+        function moveBubble() {
+            // Get the window width and bubble width
+            var windowWidth = window.innerWidth;
+            var bubbleWidth = ball1.offsetWidth;
+
+            // Move the bubble by increasing its position
+            positionx += velocityx;
+            ball1.style.left = positionx + 'px';
+
+            // If the bubble reaches the right edge of the window, reset its position
+            if (positionx > windowWidth) {
+                positionx = -bubbleWidth; // Reset to just outside the left edge
             }
+        }
 
-            showBubble(); // Start showing bubbles
+        // Start the bubble moving after the hacking screen fades out
+        setTimeout(() => {
+            movementInterval = setInterval(moveBubble, 10); // Adjust the interval for smoother movement
+        }, 5000); // Same 5-second delay as the hacking screen
+
+        // Toggle pause/play functionality
+        document.getElementById("toggleButton").addEventListener("click", function() {
+            if (isRunning) {
+                clearInterval(movementInterval); // Pause the animation
+                this.textContent = "Play"; // Change button text to "Play"
+            } else {
+                movementInterval = setInterval(moveBubble, 10); // Resume the animation
+                this.textContent = "Pause"; // Change button text to "Pause"
+            }
+            isRunning = !isRunning; // Toggle the running state
         });
     </script>
 </body>
