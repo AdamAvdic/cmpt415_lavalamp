@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ room.name }}</title>
-    <link rel="stylesheet" href="{% static 'button.css' %}"> 
+    <link rel="stylesheet" href="{% static 'button.css' %}">
     <script src="{% static 'main.js' %}"></script>
     <style>
         body {
@@ -21,10 +21,8 @@
         .bubble {
             z-index: 5;
             position: absolute;
-            left: 0;
-            top: 50%;
-            width: 300px;
-            height: 300px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             background: #00cc33; /* Green background */
             color: black; /* Text color inside the bubble */
@@ -32,8 +30,8 @@
             align-items: center; /* Vertical centering */
             justify-content: center; /* Horizontal centering */
             text-align: center; /* Center the text inside */
-            padding: 20px; /* Add some padding for text */
-            transform: translateY(-50%); /* Center the bubble vertically */
+            padding: 20px;
+            /* Remove the transform property */
         }
 
         /* Hacking screen canvas */
@@ -47,50 +45,55 @@
 
         /* Button styling */
         .control-button {
-            position: fixed; /* Use fixed positioning */
-            bottom: 20px; /* Position at the bottom */
-            left: 50%; /* Center horizontally */
-            transform: translateX(-50%); /* Center the button */
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             padding: 10px 20px;
-            background-color: #00cc33; /* Green background for button */
-            color: black; /* Text color */
+            background-color: #00cc33;
+            color: black;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-family: monospace; /* Match the hacky look */
-            z-index: 10; /* Ensure button is above everything else */
-            display: none; /* Hidden initially */
+            font-family: monospace;
+            z-index: 10;
+            display: none;
         }
 
         .control-button:hover {
-            background-color: #008c29; /* Darker green on hover */
+            background-color: #008c29;
         }
     </style>
 </head>
 <body>
-    <!-- Hacking screen canvas -->
     <canvas id="canvas"></canvas>
 
-    <!-- Green bubble with text -->
+    <!-- Green bubbles with text -->
     <div class="bubble" id="ball1">
-        Hello there! Today, we are going to talk about something called the "discount rate." Now, I know that sounds like a big, fancy term, but don't worry - it's actually quite easy to understand once we break it down together!
+        Hello there! Today, we are going to talk about something called the "discount rate."
+    </div>
+    <div class="bubble" id="ball2">
+        Let's move on to another concept: the "time value of money."
+    </div>
+    <div class="bubble" id="ball3">
+        Did you know that inflation affects the value of money over time?
+    </div>
+    <div class="bubble" id="ball4">
+        Lastly, let's talk about interest rates!
     </div>
 
-    <!-- Control button for pause/play -->
     <button class="control-button" id="toggleButton">Pause</button>
 
     <script>
-        // Hacking screen effect
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        // Drawing random characters on the canvas
         function draw() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // Black with transparency
-            ctx.fillRect(0, 0, canvas.width, canvas.height); // Clear canvas
-            ctx.fillStyle = '#00cc33'; // Green color
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00cc33';
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             const fontSize = 10;
             ctx.font = `${fontSize}px monospace`;
@@ -100,67 +103,71 @@
             }
         }
 
-        // Set an interval to continuously draw on the canvas
         const hackingScreenInterval = setInterval(draw, 100);
 
-        // Function to fade out the hacking screen and show the bubble
         document.addEventListener("DOMContentLoaded", function () {
-            const bubble = document.querySelector('.bubble');
+            const bubbles = document.querySelectorAll('.bubble');
             const button = document.getElementById('toggleButton');
 
-            // Show the bubble after 5 seconds and fade out the canvas
-            setTimeout(() => {
-                // Fade out the hacking screen
-                canvas.style.opacity = 0;
+            // Function to set random positions for each bubble
+            function randomPosition(bubble) {
+                const maxWidth = window.innerWidth - 200; // Adjust for bubble width
+                const maxHeight = window.innerHeight - 200; // Adjust for bubble height
+                
+                const randomLeft = Math.random() * maxWidth;
+                const randomTop = Math.random() * maxHeight;
 
-                // Stop the hacking screen from rendering
+                bubble.style.left = `${randomLeft}px`;
+                bubble.style.top = `${randomTop}px`;
+            }
+
+            // Show bubbles and hide canvas after 5 seconds
+            setTimeout(() => {
+                canvas.style.opacity = 0;
                 clearInterval(hackingScreenInterval);
 
-                // Show the bubble after the hacking screen fades out
-                bubble.style.display = 'flex';
+                bubbles.forEach((bubble) => {
+                    bubble.style.display = 'flex'; // Show each bubble
+                    randomPosition(bubble); // Set random position
+                });
 
-                // Show the button after the canvas is hidden
-                button.style.display = 'block'; // Show the button
-            }, 5000); // 5-second delay for the hacking screen
+                button.style.display = 'block'; // Show button
+            }, 5000);
         });
 
-        var velocityx = 3; // Control speed of the movement
-        var positionx = 0; // Initial position of the bubble
-        var ball1 = document.getElementById("ball1");
-        var isRunning = true; // Track the animation state
+        var velocityx = 3;
+        var positionx = 0;
+        var isRunning = true;
         var movementInterval;
 
-        // Function to move the bubble left to right
+        // Function to move bubbles
         function moveBubble() {
-            // Get the window width and bubble width
             var windowWidth = window.innerWidth;
-            var bubbleWidth = ball1.offsetWidth;
+            var bubbleWidth = document.querySelectorAll('.bubble')[0].offsetWidth;
 
-            // Move the bubble by increasing its position
             positionx += velocityx;
-            ball1.style.left = positionx + 'px';
+            document.querySelectorAll('.bubble').forEach(bubble => {
+                bubble.style.left = positionx + 'px';
+            });
 
-            // If the bubble reaches the right edge of the window, reset its position
             if (positionx > windowWidth) {
-                positionx = -bubbleWidth; // Reset to just outside the left edge
+                positionx = -bubbleWidth;
             }
         }
 
-        // Start the bubble moving after the hacking screen fades out
         setTimeout(() => {
-            movementInterval = setInterval(moveBubble, 10); // Adjust the interval for smoother movement
-        }, 5000); // Same 5-second delay as the hacking screen
+            movementInterval = setInterval(moveBubble, 10);
+        }, 5000);
 
-        // Toggle pause/play functionality
         document.getElementById("toggleButton").addEventListener("click", function() {
             if (isRunning) {
-                clearInterval(movementInterval); // Pause the animation
-                this.textContent = "Play"; // Change button text to "Play"
+                clearInterval(movementInterval);
+                this.textContent = "Play";
             } else {
-                movementInterval = setInterval(moveBubble, 10); // Resume the animation
-                this.textContent = "Pause"; // Change button text to "Pause"
+                movementInterval = setInterval(moveBubble, 10);
+                this.textContent = "Pause";
             }
-            isRunning = !isRunning; // Toggle the running state
+            isRunning = !isRunning;
         });
     </script>
 </body>
