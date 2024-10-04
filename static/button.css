@@ -1,24 +1,22 @@
-        /* Add your CSS styles here */
-        body {
+  /* body {
             background-color: #120439;
             height: 100%;
             font-family: 'tradegothiclt-bold', sans-serif;
             display: flex;
-            flex-direction: column; /* Vertical layout */
-            align-items: center; /* Center elements horizontally */
-            justify-content: flex-start; /* Aligns children at the top */
-            overflow: hidden; /* Prevents body scrolling */
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: flex-start; 
+            overflow: hidden; 
         }
 
-        /* Container for the header */
+        
         #header-container {
-            width: 100%; /* Full width */
-            display: flex; /* Flexbox */
-            justify-content: center; /* Center the h1 */
-            margin-bottom: 20px; /* Space below header */
+            width: 100%; 
+            display: flex; 
+            justify-content: center; 
+            margin-bottom: 20px; 
         }
 
-        /* Main container for room list */
         #container {
             display: flex;
             flex-direction: column;
@@ -37,7 +35,7 @@
             color: white;
             text-transform: uppercase;
             text-align: center;
-            margin: 0; /* Remove default margin */
+            margin: 0; 
         }
 
         span {
@@ -51,7 +49,6 @@
             }
         }
 
-        /* Room Item Styling */
         #rooms-list {
             width: 100%;
         }
@@ -92,4 +89,43 @@
             .room-item h5 {
                 font-size: 16px;
             }
+        } */
+         /* Styles for fade transition */
+        body {
+            margin: 0;
+            background: black; /* Set background to black */
+            color: #00cc33; /* Set text color to green */
+            font-family: monospace; /* Use a monospace font for a hacky look */
+            overflow: hidden; /* Hide overflow for a cleaner look */
+        }
+
+        #canvas {
+            transition: opacity 1s ease-in-out; /* Fade transition for canvas */
+            position: absolute; /* Position it on top */
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            z-index: 1; /* Ensure canvas is on top */
+        }
+
+        #container {
+            display: none; /* Hide initially */
+            opacity: 0; /* Start hidden */
+            transition: opacity 1s ease-in-out; /* Fade transition for container */
+            white-space: pre-wrap; /* Preserve whitespace for bubble effect */
+            padding: 10px; /* Adjust padding for the text */
+            z-index: 2; /* Ensure text is above canvas */
+            position: relative; /* Position relative for z-index */
+            max-width: 600px; /* Set a maximum width for better readability */
+            margin: auto; /* Center the container */
+        }
+        
+        .bubble {
+            margin: 10px 0;
+            display: none; /* Hide initially */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px 15px; /* Increase padding for better spacing */
+            background-color: rgba(0, 0, 0, 0.7); /* Slightly transparent black background */
+            border: 1px solid #00cc33; /* Green border */
+            max-width: 100%; /* Ensure bubbles don't exceed container width */
+            overflow-wrap: break-word; /* Allow long words to break onto the next line */
         }
