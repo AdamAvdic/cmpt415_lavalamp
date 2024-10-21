@@ -17,6 +17,70 @@ body {
     background-color: #282c34;
     overflow: hidden;
 }
+        /* Styles for fade transition */
+#canvas {
+            transition: opacity 1s ease-in-out; /* Fade transition for canvas */
+            position: absolute; /* Position it on top */
+            width: 100vw; /* Full width of the viewport */
+            height: 100vh; /* Full height of the viewport */
+            background: #111; /* Ensure background is dark */
+            border: none; /* Remove any potential borders */
+            margin: 0; /* Remove margin */
+            padding: 0; /* Remove padding */
+            box-sizing: border-box; /* Ensure no border-box model adjustments */
+     }
+        
+        /* Remove scrollbars and overflow */
+body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent overflow, which causes scrollbars */
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,1)
+        }
+
+#container {
+            display: none; /* Hide initially */
+            opacity: 0; /* Start hidden */
+            transition: opacity 1s ease-in-out; /* Fade transition for container */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); /* Add a shadow for effect */
+            color: white;
+        }
+
+h1 {
+            color: #00cc33;
+            font-size: 2rem;
+            font-family: "Space Mono", monospace;
+            margin-bottom: 20px;
+        }
+
+#rooms-list {
+            margin-top: 20px;
+        }
+
+ .room-item h5 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+.room-item h5 a {
+            color: #00cc33;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+ .room-item h5 a:hover {
+        text-decoration: underline;
+        }
 
 /* #container {
     position: relative;
