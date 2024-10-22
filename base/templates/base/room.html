@@ -17,47 +17,40 @@
             overflow: hidden;
         }
 
-        /* Individual bubble styling */
         .bubble {
             z-index: 5;
             position: absolute;
-            width: 200px;
-            height: 200px;
+            width: 300px;
+            height: 300px;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(0,255,123,1) 0%, rgba(0,204,51,0.8) 100%);
             opacity: 0.9;
             box-shadow: 0px 0px 15px rgba(0,255,123,0.7), 0px 0px 30px rgba(0,255,123,0.5);
             color: black;
-            display: none;
+            display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             padding: 20px;
-            transition: transform 0.3s ease-in-out;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            animation: floating 4s ease-in-out infinite;
         }
 
-        .bubble:hover {
-            transform: scale(1.1);
-            box-shadow: 0px 0px 20px rgba(0,255,123,1), 0px 0px 40px rgba(0,255,123,1);
-        }
-
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-
+        /* Floating animation for a gentle up and down movement */
         @keyframes floating {
             0% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
             100% { transform: translateY(0); }
         }
 
-        /* Hacking screen canvas */
-        #canvas {
-            transition: opacity 1s ease-in-out;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
+        .bubble.show {
+            display: flex;
+        }
+
+        /* Hover effect for a glow and slight scaling */
+        .bubble:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 0px 25px rgba(0,255,123,1), 0px 0px 50px rgba(0,255,123,0.8);
         }
 
         /* Button styling */
@@ -93,27 +86,14 @@
 <body>
     <canvas id="canvas"></canvas>
 
-    <!-- Green bubbles with individual classes and floating effect -->
-    <div class="bubble bubble1 floating" id="ball1">
-        Hello there! Today, we are going to talk about something called the "discount rate."
+    <!-- Loop through responses to create bubbles dynamically -->
+    {% for response in responses %}
+    <div class="bubble" id="ball{{ forloop.counter }}">
+        {{ response.response }}
     </div>
-    <div class="bubble bubble2 floating" id="ball2">
-        Let's move on to another concept: the "time value of money."
-    </div>
-    <div class="bubble bubble3 floating" id="ball3">
-        Did you know that inflation affects the value of money over time?
-    </div>
-    <div class="bubble bubble4 floating" id="ball4">
-        Lastly, let's talk about interest rates!
-    </div>
-    <div class="bubble bubble5 floating" id="ball5">Bubble 5 Content</div>
-    <div class="bubble bubble6 floating" id="ball6">Bubble 6 Content</div>
-    <div class="bubble bubble7 floating" id="ball7">Bubble 7 Content</div>
-    <div class="bubble bubble8 floating" id="ball8">Bubble 8 Content</div>
-    <div class="bubble bubble9 floating" id="ball9">Bubble 9 Content</div>
-    <div class="bubble bubble10 floating" id="ball10">Bubble 10 Content</div>
+    {% endfor %}
 
-    <!-- Container to hold Left, Play/Pause, and Right buttons -->
+    <!-- Container for buttons -->
     <div class="button-container">
         <button class="control-button" id="leftButton">Left</button>
         <button class="control-button" id="toggleButton">Pause</button>
@@ -141,131 +121,71 @@
 
         const hackingScreenInterval = setInterval(draw, 100);
 
-        let positions = []; // Array to store positions and speeds
-
         document.addEventListener("DOMContentLoaded", function () {
             const bubbles = document.querySelectorAll('.bubble');
             const button = document.getElementById('toggleButton');
             const leftButton = document.getElementById('leftButton');
             const rightButton = document.getElementById('rightButton');
-            const buttonContainerHeight = document.querySelector('.button-container').offsetHeight;
-            const paddingBottom = 50;  // Buffer space above the buttons to avoid overlap
 
-            const bubbleSize = 200; 
-            const minDistance = 50; 
+            const baseTopPosition = window.innerHeight / 2 - 150;
+            const staggeredOffset = 150;
+            const horizontalSpacing = 500;
 
-            // Calculate the height where bubbles should stop to avoid overlapping the button container
-            const restrictedHeight = window.innerHeight - buttonContainerHeight - paddingBottom;
-
-            // Function to check if a new bubble overlaps with existing bubbles
-            function isOverlapping(newBubble) {
-                for (let pos of positions) {
-                    let dist = Math.sqrt(
-                        Math.pow(newBubble.x - pos.x, 2) + Math.pow(newBubble.y - pos.y, 2)
-                    );
-                    if (dist < bubbleSize + minDistance) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            // Randomly position the bubbles without overlapping, and avoiding the button area
             bubbles.forEach((bubble, index) => {
-                let randomTop, randomLeft;
-                let newBubble;
+                const topPosition = index % 2 === 0 ? baseTopPosition : baseTopPosition - staggeredOffset;
+                bubble.style.top = `${topPosition}px`;
 
-                // Try to find a non-overlapping position that stays above the button container
-                do {
-                    randomTop = Math.random() * (restrictedHeight - bubbleSize); // Stay above the button container
-                    randomLeft = Math.random() * (window.innerWidth - bubbleSize);
-
-                    newBubble = { x: randomLeft, y: randomTop };
-                } while (isOverlapping(newBubble));
-
-                // Save the new position and initial left for movement
-                positions.push({ ...newBubble, velocity: Math.random() * 2 + 1 });
-                bubble.style.top = `${newBubble.y}px`;
-                bubble.style.left = `${newBubble.x}px`;
-
-                // Store the initial left position for movement
-                bubble.dataset.left = newBubble.x;
-                bubble.dataset.top = newBubble.y;
+                // Distribute bubbles evenly, with the first starting at -300px.
+                bubble.style.left = `${-300 - (index * horizontalSpacing)}px`;
             });
 
-            // Show canvas for 5 seconds then hide it and display bubbles
+            let velocity = 2; // Positive velocity to move to the right
+            let isRunning = true;
+            let movementInterval;
+
+            function moveBubbles() {
+                bubbles.forEach((bubble) => {
+                    let positionX = parseFloat(bubble.style.left);
+                    positionX += velocity;
+
+                    if (positionX > window.innerWidth) {
+                        positionX = -300 - (bubbles.length * horizontalSpacing); // Reset off-screen to the left when out of view
+                    }
+
+                    bubble.style.left = `${positionX}px`;
+                });
+            }
+
             setTimeout(() => {
                 canvas.style.opacity = 0;
                 clearInterval(hackingScreenInterval);
 
-                // Show bubbles after canvas fades out
-                bubbles.forEach((bubble) => {
-                    bubble.style.display = 'flex';  // Show each bubble
-                });
+                button.style.display = 'block';
+                leftButton.style.display = 'block';
+                rightButton.style.display = 'block';
 
-                button.style.display = 'block'; // Show the play/pause button
-                leftButton.style.display = 'block'; // Show left button
-                rightButton.style.display = 'block'; // Show right button
+                bubbles.forEach(bubble => bubble.classList.add('show'));
+
+                movementInterval = setInterval(moveBubbles, 75);
             }, 5000);
-        });
 
-        var isRunning = true;
-        var movementInterval;
-
-        // Move bubbles horizontally based on the initialized positions
-        function moveBubble() {
-            const bubbles = document.querySelectorAll('.bubble');
-
-            bubbles.forEach((bubble, index) => {
-                let positionX = parseFloat(bubble.dataset.left);
-                const topPosition = bubble.dataset.top;
-                const velocity = positions[index].velocity;
-
-                // Update position
-                positionX += velocity;
-
-                // Handle wrapping
-                if (positionX > window.innerWidth) {
-                    positionX = -bubble.offsetWidth;
+            document.getElementById("toggleButton").addEventListener("click", function() {
+                if (isRunning) {
+                    clearInterval(movementInterval);
+                    this.textContent = "Play";
+                } else {
+                    movementInterval = setInterval(moveBubbles, 75);
+                    this.textContent = "Pause";
                 }
-
-                // Apply updated left position
-                bubble.style.left = `${positionX}px`;
-
-                // Save updated left position
-                bubble.dataset.left = positionX;
-                bubble.style.top = `${topPosition}px`;  // Maintain the original top position
+                isRunning = !isRunning;
             });
-        }
 
-        // Initialize bubble movement after 5 seconds
-        setTimeout(() => {
-            movementInterval = setInterval(moveBubble, 75);
-        }, 5000);
-
-        // Pause/Play button functionality
-        document.getElementById("toggleButton").addEventListener("click", function() {
-            if (isRunning) {
-                clearInterval(movementInterval);
-                this.textContent = "Play";
-            } else {
-                movementInterval = setInterval(moveBubble, 75);
-                this.textContent = "Pause";
-            }
-            isRunning = !isRunning;
-        });
-
-        // Left button changes direction to left
-        document.getElementById("leftButton").addEventListener("click", function() {
-            positions.forEach((pos) => {
-                pos.velocity = -Math.abs(pos.velocity); // Change direction to left
+            document.getElementById("leftButton").addEventListener("click", function() {
+                velocity = -Math.abs(velocity);
             });
-        });
 
-        // Right button changes direction to right
-        document.getElementById("rightButton").addEventListener("click", function() {
-            positions.forEach((pos) => {
-                pos.velocity = Math.abs(pos.velocity); // Change direction to right
+            document.getElementById("rightButton").addEventListener("click", function() {
+                velocity = Math.abs(velocity);
             });
         });
     </script>

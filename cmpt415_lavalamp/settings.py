@@ -66,25 +66,7 @@ WSGI_APPLICATION = 'cmpt415_lavalamp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
 
-    'default': {
-
-        'ENGINE': 'django.db.backends.postgresql',
-
-        'NAME': 'railway',
-
-        'USER': 'postgres',
-
-        'PASSWORD': 'AVztkaJwoCBzQxaKDilkHPJGQGSsQgde',
-
-        'HOST': 'junction.proxy.rlwy.net',
-
-        'PORT': '53488',
-
-    }
-
-}
 
 
 # Password validation
