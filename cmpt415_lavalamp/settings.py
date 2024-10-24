@@ -68,7 +68,6 @@ WSGI_APPLICATION = 'cmpt415_lavalamp.wsgi.application'
 
 
 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 

@@ -27,7 +27,7 @@
             opacity: 0.9;
             box-shadow: 0px 0px 15px rgba(0,255,123,0.7), 0px 0px 30px rgba(0,255,123,0.5);
             color: black;
-            display: flex;
+            display: none; /* Initially hide bubbles */
             align-items: center;
             justify-content: center;
             text-align: center;
@@ -41,10 +41,6 @@
             0% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
             100% { transform: translateY(0); }
-        }
-
-        .bubble.show {
-            display: flex;
         }
 
         /* Hover effect for a glow and slight scaling */
@@ -164,7 +160,7 @@
                 leftButton.style.display = 'block';
                 rightButton.style.display = 'block';
 
-                bubbles.forEach(bubble => bubble.classList.add('show'));
+                bubbles.forEach(bubble => bubble.style.display = 'flex');
 
                 movementInterval = setInterval(moveBubbles, 75);
             }, 5000);

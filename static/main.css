@@ -1,129 +1,79 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-h1 {
-    color:white;
-    font-size: 5rem;
+#header-container h1 {
+    color: #00cc33;
+    font-size: 3rem;
     font-family: "Space Mono", monospace;
+    margin-bottom: 30px;
+    text-shadow: 0px 0px 15px rgba(0, 255, 123, 0.7);
 }
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #282c34;
-    overflow: hidden;
-}
-        /* Styles for fade transition */
-#canvas {
-            transition: opacity 1s ease-in-out; /* Fade transition for canvas */
-            position: absolute; /* Position it on top */
-            width: 100vw; /* Full width of the viewport */
-            height: 100vh; /* Full height of the viewport */
-            background: #111; /* Ensure background is dark */
-            border: none; /* Remove any potential borders */
-            margin: 0; /* Remove margin */
-            padding: 0; /* Remove padding */
-            box-sizing: border-box; /* Ensure no border-box model adjustments */
-     }
-        
-        /* Remove scrollbars and overflow */
-body, html {
-            margin: 0;
-            padding: 0;
-            overflow: hidden; /* Prevent overflow, which causes scrollbars */
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0,0,0,1)
-        }
-
-#container {
-            display: none; /* Hide initially */
-            opacity: 0; /* Start hidden */
-            transition: opacity 1s ease-in-out; /* Fade transition for container */
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); /* Add a shadow for effect */
-            color: white;
-        }
-
-h1 {
-            color: #00cc33;
-            font-size: 2rem;
-            font-family: "Space Mono", monospace;
-            margin-bottom: 20px;
-        }
 
 #rooms-list {
-            margin-top: 20px;
-        }
-
- .room-item h5 {
-            color: white;
-            margin-bottom: 10px;
-        }
-
-.room-item h5 a {
-            color: #00cc33;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
- .room-item h5 a:hover {
-        text-decoration: underline;
-        }
-
-/* #container {
-    position: relative;
-    width: 90%;
-    height: 90%; 
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    padding: 20px;
-    overflow: hidden;
-}*/
-
-.bubble {
-    position: relative;
-    max-width: 80%; /* Limit the width of the bubbles to prevent overlap */
-    padding: 20px;
-    margin: 10px 0; /* Add margin to give space between each bubble */
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
-    font-family: Arial, sans-serif;
-    color: #333;
-    text-align: center; /* Center the text inside the bubbles */
-    animation: floatUp 40s ease-in-out infinite;
-    opacity: 0;
-    word-wrap: break-word; /* Wrap long text within the container */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Add a shadow for visual effect */
+    gap: 20px; /* Space between each option */
+    margin-top: 20px;
 }
 
-/* Floating from bottom to top animation */
-@keyframes floatUp {
-    0% {
-        transform: translateY(100vh); /* Start from below the viewport */
-        opacity: 0;
-    }
-    20% {
-        opacity: 1;
-    }
-    80% {
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(-100vh); /* Move the bubble all the way to the top of the viewport */
-        opacity: 0;
-    }
+.room-item {
+    background-color: rgba(0, 0, 0, 0.8); /* Slightly darker background for contrast */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-align: center;
+    font-size: 2rem; /* Increase font size */
+}
+
+.room-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 20px rgba(0, 255, 123, 0.5);
+}
+
+.room-item h5 {
+    color: white;
+    margin: 0;
+    font-size: 2.5rem; /* Increase size of text */
+}
+
+.room-item h5 a {
+    color: #00cc33;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+    font-size: 5.5rem; /* Make the links larger */
+}
+
+.room-item h5 a:hover {
+    color: #00ff77;
+    text-decoration: underline;
+}
+
+.control-button {
+    padding: 10px 20px;
+    background-color: #00cc33;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: "Space Mono", monospace;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.control-button:hover {
+    background-color: #00ff77;
+    transform: scale(1.05);
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#container {
+    max-width: 600px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 255, 123, 0.5);
 }
