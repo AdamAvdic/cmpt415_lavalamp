@@ -6,17 +6,113 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ room.name }}</title>
-    <link rel="stylesheet" href="{% static 'main.css' %}">
-    <script src="{% static 'main.js' %}"></script>
+    <style>
+        /* Global styling for fullscreen dark background */
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #111; /* Dark background to avoid outline */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Canvas for background effect */
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #111;
+            z-index: -1; /* Behind all content */
+        }
+
+        /* Hidden container, will appear after animation */
+        #container {
+            display: none; /* Start hidden */
+            max-width: 600px;
+            width: 80%;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 255, 123, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: fixed; /* Fixed in center */
+            opacity: 0; /* Hidden for fade-in effect */
+            transition: opacity 1s ease-in-out;
+        }
+
+        #header-container h1 {
+            color: #00cc33;
+            font-size: 3rem;
+            font-family: "Space Mono", monospace;
+            margin-bottom: 30px;
+            text-shadow: 0px 0px 15px rgba(0, 255, 123, 0.7);
+        }
+
+/* Container for rooms list with minimal gap */
+#rooms-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Minimal gap between items */
+    margin-top: 5px; /* Reduce top margin */
+}
+
+/* Room item styling for tighter look */
+.room-item {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 5px 10px; /* Further reduced padding inside each button */
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-align: center;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+/* Link styling within room items */
+.room-item h5 a {
+    color: #00cc33;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-size: 1.8rem;
+    padding: 5px 10px; /* Reduced padding to make links more compact */
+    border: 1px solid #00cc33;
+    border-radius: 3px;
+    display: inline-block;
+    box-shadow: 0px 2px 5px rgba(0, 255, 123, 0.3);
+}
+
+/* Hover effect for clickable links */
+.room-item h5 a:hover {
+    color: #00ff77;
+    border-color: #00ff77;
+    background-color: rgba(0, 255, 123, 0.1);
+    text-shadow: 0px 0px 5px rgba(0, 255, 123, 0.5);
+    box-shadow: 0px 4px 10px rgba(0, 255, 123, 0.4);
+    transform: scale(1.02);
+}
+
+    </style>
 </head>
 <body>
-    <canvas id="canvas" style="background: #111;"></canvas>
-    <!-- Main container for room list and typewriter effect -->
+    <!-- Full-screen canvas for background effect -->
+    <canvas id="canvas"></canvas>
+
+    <!-- Main container for centered content -->
     <div id="container">
-        <!-- Header container for typewriter effect -->
         <div id="header-container">
-            <h1><span></span></h1> <!-- Typewriter effect target -->
+            <h1><span></span></h1>
         </div>
+        
+        <!-- Rooms list menu -->
         <div id="rooms-list">
             {% for room in rooms %}
                 <div class="room-item">
@@ -26,13 +122,10 @@
         </div>
     </div>
 
-    <!-- Typewriter effect script -->
     <script>
         document.addEventListener('DOMContentLoaded', function(event) {
-            // Array with texts to type in typewriter
             var dataText = ["Welcome To a ", "Language Learning Model", "Data Displayer", "Please Choose Your Preferred Language Learning Model"];
 
-            // Type one text in the typewriter
             function typeWriter(text, i, fnCallback) {
                 if (i < text.length) {
                     document.querySelector("h1 span").innerHTML = text.substring(0, i + 1) + '<span aria-hidden="true"></span>';
@@ -44,7 +137,6 @@
                 }
             }
 
-            // Start a typewriter animation for a text in the dataText array
             function StartTextAnimation(i) {
                 if (typeof dataText[i] == 'undefined') {
                     setTimeout(function() {
@@ -59,63 +151,54 @@
 
             // Show canvas for 5 seconds, then show container
             setTimeout(function() {
-                // Fade out the canvas
                 var canvas = document.getElementById('canvas');
-                canvas.style.opacity = 0; // Fade out canvas
+                canvas.style.opacity = 0;
 
-                // After the fade out, hide the canvas and show the container
                 setTimeout(function() {
-                    canvas.style.display = 'none'; // Hide canvas
+                    canvas.style.display = 'none';
                     var container = document.getElementById('container');
-                    container.style.display = 'block'; // Show container
+                    container.style.display = 'flex'; // Show container
+                    container.style.opacity = 1; // Fade in container
                     setTimeout(function() {
-                        container.style.opacity = 1; // Fade in container
-                    }, 10); // Small delay to allow display change
-                    
-                    // Start the typewriter animation after an additional delay
-                    setTimeout(function() {
-                        StartTextAnimation(0); // Start text animation after 1 second
-                    }, 1000); // Additional delay after the container fades in
-                }, 1000); // Match the transition duration of the canvas fade out
+                        StartTextAnimation(0); // Start text animation after fade-in
+                    }, 1000);
+                }, 1000);
+            }, 5000);
 
-            }, 5000); // 5000 ms = 5 seconds
+            // Hacker background effect
+            var canvas = document.getElementById('canvas');
+            var context = canvas.getContext('2d');
+            var W = window.innerWidth;
+            var H = window.innerHeight;
 
-        });
+            canvas.width = W;
+            canvas.height = H;
 
-        // Hacker background
-        var canvas = document.getElementById('canvas');
-        var context = canvas.getContext('2d');
-        var W = window.innerWidth;
-        var H = window.innerHeight;
-
-        canvas.width = W;
-        canvas.height = H;
-
-        var fontSize = 16;
-        var columns = Math.floor(W / fontSize);
-        var drops = [];
-        for(var i=0; i<columns; i++){
-            drops.push(0);
-        }
-        var str = "JavaScript Hacking Effect";
-        function draw(){
-            context.fillStyle = "rgba(0,0,0,0.05)";
-            context.fillRect(0, 0, W, H);
-            context.fontSize = "700 " + fontSize + "px";
-            context.fillStyle = "#00cc33";
+            var fontSize = 16;
+            var columns = Math.floor(W / fontSize);
+            var drops = [];
             for(var i=0; i<columns; i++){
-                var index = Math.floor(Math.random()*str.length);
-                var x = i * fontSize;
-                var y = drops[i] * fontSize;
-                context.fillText(str[index], x, y);
-                if(y >= canvas.height && Math.random() > 0.99){
-                    drops[i] = 0;
-                }
-                drops[i]++;
+                drops.push(0);
             }
-        }
-        draw();
-        setInterval(draw, 35);
+            var str = "JavaScript Hacking Effect";
+            function draw(){
+                context.fillStyle = "rgba(0,0,0,0.05)";
+                context.fillRect(0, 0, W, H);
+                context.font = "700 " + fontSize + "px Arial";
+                context.fillStyle = "#00cc33";
+                for(var i=0; i<columns; i++){
+                    var index = Math.floor(Math.random()*str.length);
+                    var x = i * fontSize;
+                    var y = drops[i] * fontSize;
+                    context.fillText(str[index], x, y);
+                    if(y >= canvas.height && Math.random() > 0.99){
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            setInterval(draw, 35);
+        });
     </script>
 </body>
 </html>
