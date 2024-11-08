@@ -1,6 +1,7 @@
 from pathlib import Path
 import mimetypes
-
+import os
+from dotenv import find_dotenv, load_dotenv
 mimetypes.add_type("application/javascript", ".js",True)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,7 +16,7 @@ SECRET_KEY = 'django-insecure-4__68=4^%88#5!+p7#9dm#l3df$m8qvenbz4k_lw2&$b#qjbmy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -32,6 +33,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    #'whitenoise.middleware.WhiteNoiseMiddleware'
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -65,7 +67,23 @@ WSGI_APPLICATION = 'cmpt415_lavalamp.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+dotenv_path = find_dotenv()
+load_dotenv(dotenv_path)
 
+DATABASES = {
+
+    'default': {
+
+    'ENGINE': os.getenv('DB_ENGINE'),
+    'NAME': os.getenv('DB_NAME'),
+    'USER': os.getenv('DB_USER'),
+    'PASSWORD': os.getenv('DB_PASSWORD'),
+    'HOST': os.getenv('DB_HOST'),
+    'PORT': os.getenv('DB_PORT'),
+
+    }
+
+}
 
 
 # Password validation
@@ -104,6 +122,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICSTORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
