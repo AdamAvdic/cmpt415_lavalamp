@@ -2,3 +2,4 @@ django
 pillow
 gunicorn
 whitenoise
+twilio==7.12.1
