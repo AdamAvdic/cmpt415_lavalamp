@@ -1,0 +1,131 @@
+  /* body {
+            background-color: #120439;
+            height: 100%;
+            font-family: 'tradegothiclt-bold', sans-serif;
+            display: flex;
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: flex-start; 
+            overflow: hidden; 
+        }
+
+        
+        #header-container {
+            width: 100%; 
+            display: flex; 
+            justify-content: center; 
+            margin-bottom: 20px; 
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+        }
+
+        h1 {
+            font-size: 5em;
+            color: white;
+            text-transform: uppercase;
+            text-align: center;
+            margin: 0; 
+        }
+
+        span {
+            border-right: 0.05em solid;
+            animation: caret 1s steps(1) infinite;
+        }
+
+        @keyframes caret {
+            50% {
+                border-color: transparent;
+            }
+        }
+
+        #rooms-list {
+            width: 100%;
+        }
+
+        .room-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .room-item:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .room-item h5 {
+            font-size: 18px;
+            color: #61dafb;
+        }
+
+        .room-item h5 a {
+            color: #61dafb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .room-item h5 a:hover {
+            color: #21a1f1;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 28px;
+            }
+            
+            .room-item h5 {
+                font-size: 16px;
+            }
+        } */
+         /* Styles for fade transition */
+        body {
+            margin: 0;
+            background: black; /* Set background to black */
+            color: #00cc33; /* Set text color to green */
+            font-family: monospace; /* Use a monospace font for a hacky look */
+            overflow: hidden; /* Hide overflow for a cleaner look */
+        }
+
+        #canvas {
+            transition: opacity 1s ease-in-out; /* Fade transition for canvas */
+            position: absolute; /* Position it on top */
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            z-index: 1; /* Ensure canvas is on top */
+        }
+
+        #container {
+            display: none; /* Hide initially */
+            opacity: 0; /* Start hidden */
+            transition: opacity 1s ease-in-out; /* Fade transition for container */
+            white-space: pre-wrap; /* Preserve whitespace for bubble effect */
+            padding: 10px; /* Adjust padding for the text */
+            z-index: 2; /* Ensure text is above canvas */
+            position: relative; /* Position relative for z-index */
+            max-width: 600px; /* Set a maximum width for better readability */
+            margin: auto; /* Center the container */
+        }
+        
+        .bubble {
+            margin: 10px 0;
+            display: none; /* Hide initially */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px 15px; /* Increase padding for better spacing */
+            background-color: rgba(0, 0, 0, 0.7); /* Slightly transparent black background */
+            border: 1px solid #00cc33; /* Green border */
+            max-width: 100%; /* Ensure bubbles don't exceed container width */
+            overflow-wrap: break-word; /* Allow long words to break onto the next line */
+        }

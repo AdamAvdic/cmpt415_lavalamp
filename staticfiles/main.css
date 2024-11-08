@@ -1,0 +1,74 @@
+/* Global styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Remove scroll */
+    background: #111; /* Dark background to avoid white outline */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#background-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#canvas {
+    width: 100%;
+    height: 100%;
+    background: #111;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+/* Center container styles */
+#container {
+    max-width: 600px;
+    width: 80%;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 255, 123, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#rooms-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.room-item {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.room-item h5 a {
+    color: #00cc33;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+    font-size: 5.5rem;
+}
+
+.room-item h5 a:hover {
+    color: #00ff77;
+    text-decoration: underline;
+}
