@@ -11,12 +11,9 @@ rooms = [
 def home(request):
     return render(request, 'base/home.html', {'rooms': rooms})
 
-from base.models import HuggingFaceRefineWeb
-
 def room(request, pk):
     room = next((r for r in rooms if r['id'] == int(pk)), None)
     contents = HuggingFaceRefineWeb.objects.all()
-    print(contents)  # Debugging output
     context = {
         'room': room,
         'contents': contents

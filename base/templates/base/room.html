@@ -122,7 +122,6 @@
 </head>
 <body>
     <canvas id="canvas"></canvas>
-    <pre>{{ contents }}</pre>
     <!-- Loop through responses to create bubbles dynamically -->
     {% for content in contents %}
     <div class="bubble" id="ball{{ forloop.counter }}" data-content="{{ content.content }}">
