@@ -32,12 +32,40 @@
             justify-content: center;
             text-align: center;
             padding: 20px;
+            flex-direction: column; /* Align children vertically */
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             animation: floating 2s ease-in-out infinite;
             cursor: pointer;
             font-size: 1rem;
+            word-break: break-word; /* Ensure long links wrap properly */
+            overflow: hidden;
         }
 
+        .bubble-timestamp {
+            font-size: 0.8rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .bubble-text {
+            font-size: 1rem;
+            color: black;
+            margin: 5px 0;
+        }
+
+        .bubble-url {
+            font-size: 0.8rem;
+            color: #0066cc;
+            text-decoration: none;
+            word-break: break-word; /* Ensure long links wrap properly */
+            max-width: 100%; /* Limit width to fit inside the bubble */
+        }
+
+        .bubble-url:hover {
+            text-decoration: underline;
+        }
+
+        /* Floating animation */
         @keyframes floating {
             0% { transform: translateY(0); }
             50% { transform: translateY(-20px); }
@@ -50,7 +78,6 @@
             box-shadow: 0px 0px 25px rgba(0,255,123,1), 0px 0px 50px rgba(0,255,123,0.8);
         }
 
-        /* Control button styling */
         .control-button {
             width: 50px;
             height: 50px;
@@ -101,10 +128,25 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 0px 20px rgba(0, 255, 123, 0.7);
-            max-width: 500px;
-            text-align: center;
+            max-height: 90vh; /* Limit height to prevent overflow */
+            max-width: 80vw; /* Limit width for readability */
+            overflow-y: auto; /* Enable scrolling for long text */
+            text-align: left;
             color: #00cc33;
             font-family: monospace;
+        }
+
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: #00cc33;
+            border-radius: 5px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: black;
         }
 
         .close-button {
@@ -124,8 +166,10 @@
     <canvas id="canvas"></canvas>
     <!-- Loop through responses to create bubbles dynamically -->
     {% for content in contents %}
-    <div class="bubble" id="ball{{ forloop.counter }}" data-content="{{ content.content }}">
-        {{ content.content|truncatewords:25 }} <!-- Display truncated text inside the bubble -->
+    <div class="bubble" id="ball{{ forloop.counter }}" data-content="{{ content.content }}" data-url="{{ content.url }}" data-timestamp="{{ content.timestamp }}">
+        <small class="bubble-timestamp">{{ content.timestamp }}</small> <!-- Timestamp displayed above -->
+        <p class="bubble-text">{{ content.content|truncatewords:25 }}</p> <!-- Main text -->
+        <a href="{{ content.url }}" target="_blank" class="bubble-url">{{ content.url }}</a> <!-- URL displayed below -->
     </div>
     {% endfor %}
 
@@ -140,7 +184,9 @@
     <div class="modal" id="modal">
         <div class="modal-content">
             <span class="close-button" id="closeButton">&times;</span>
-            <p id="modalText"></p>
+            <p id="modalTimestamp" style="font-size: 0.9rem; color: #cccccc;"></p>
+            <p id="modalText" style="margin: 20px 0;"></p>
+            <a id="modalUrl" href="#" target="_blank" style="color: #00ccff; text-decoration: underline;"></a>
         </div>
     </div>
 
