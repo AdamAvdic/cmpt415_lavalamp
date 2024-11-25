@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import ChatGPTResponse
+from .models import HuggingFaceRefineWeb
 
 # Example static rooms data for demonstration
 rooms = [
@@ -11,12 +11,14 @@ rooms = [
 def home(request):
     return render(request, 'base/home.html', {'rooms': rooms})
 
+from base.models import HuggingFaceRefineWeb
+
 def room(request, pk):
     room = next((r for r in rooms if r['id'] == int(pk)), None)
-    # Fetch the first 10 responses from the chatgpt_response table
-    responses = ChatGPTResponse.objects.all()[:10]
+    contents = HuggingFaceRefineWeb.objects.all()
+    print(contents)  # Debugging output
     context = {
         'room': room,
-        'responses': responses
+        'contents': contents
     }
     return render(request, 'base/room.html', context)

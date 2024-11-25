@@ -122,11 +122,11 @@
 </head>
 <body>
     <canvas id="canvas"></canvas>
-
+    <pre>{{ contents }}</pre>
     <!-- Loop through responses to create bubbles dynamically -->
-    {% for response in responses %}
-    <div class="bubble" id="ball{{ forloop.counter }}" data-content="{{ response.response }}">
-        {{ response.response|truncatewords:25 }} <!-- Display truncated text inside the bubble -->
+    {% for content in contents %}
+    <div class="bubble" id="ball{{ forloop.counter }}" data-content="{{ content.content }}">
+        {{ content.content|truncatewords:25 }} <!-- Display truncated text inside the bubble -->
     </div>
     {% endfor %}
 

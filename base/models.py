@@ -2,11 +2,11 @@ from django.db import models
 
 # Create your models here.
 
-class ChatGPTResponse(models.Model):
-    response = models.TextField()
+class HuggingFaceRefineWeb(models.Model):
+    content = models.TextField()
 
-    class Meta:
-        db_table = 'chatgptresponse'  # Matches your table name
+class Meta:
+    db_table = 'huggingface-refineweb'
 
-    def __str__(self):
-        return self.response
+def __str__(self):
+    return self.content

@@ -68,12 +68,13 @@ WSGI_APPLICATION = 'cmpt415_lavalamp.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-# env_path = load_dotenv(os.path.join(BASE_DIR, '.env'))
-# load_dotenv(env_path)
+import dotenv
+env_path = dotenv.load_dotenv(os.path.join(BASE_DIR, '.env'))
 
+# os.environ['DB_PORT'] = '53488'
 DATABASES = {
     'default': {
-    'ENGINE': os.getenv('DB_ENGINE'),
+    'ENGINE': 'django.db.backends.postgresql',
     'NAME': os.getenv('DB_NAME'),
     'USER': os.getenv('DB_USER'),
     'PASSWORD': os.getenv('DB_PASSWORD'),
@@ -81,6 +82,7 @@ DATABASES = {
     'PORT': os.getenv('DB_PORT'),
     }
 }
+
 
 
 # Password validation
@@ -118,18 +120,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICSTORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static"
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static"
+# ]
 
 
-STATIC_ROOT = BASE_DIR / "static"
+#STATIC_ROOT = BASE_DIR / "static"
 
 #STATICFILES_STORAGE = "whitenoise.storage.CompressManifestStaticFilesStorage"
