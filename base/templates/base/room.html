@@ -219,6 +219,8 @@
             const modal = document.getElementById('modal');
             const modalText = document.getElementById('modalText');
             const closeButton = document.getElementById('closeButton');
+            const modalTimestamp = document.getElementById('modalTimestamp');
+            const modalUrl = document.getElementById('modalUrl');
 
             const baseTopPosition = window.innerHeight / 2 - 150;
             const staggeredOffset = 150;
@@ -231,8 +233,11 @@
 
                 // Event listener for showing modal with full text
                 bubble.addEventListener("click", function () {
-                    modalText.textContent = this.getAttribute('data-content'); // Show full text from data-content attribute
-                    modal.style.display = "flex"; // Display the modal
+                    modalTimestamp.textContent = `Timestamp: ${this.getAttribute('data-timestamp')}`;
+                    modalText.textContent = this.getAttribute('data-content');
+                    modalUrl.textContent = this.getAttribute('data-url');
+                    modalUrl.href = this.getAttribute('data-url');
+                    modal.style.display = "flex";
                 });
             });
 
@@ -246,14 +251,22 @@
 
             function moveBubbles() {
                 bubbles.forEach((bubble) => {
-                    let positionX = parseFloat(bubble.style.left);
-                    positionX += velocity;
-                    if (positionX > window.innerWidth) {
-                        positionX = -300 - (bubbles.length * horizontalSpacing);
-                    }
-                    bubble.style.left = `${positionX}px`;
-                });
-            }
+                let positionX = parseFloat(bubble.style.left);
+                positionX += velocity;
+
+                // Ensure bubbles re-enter the screen properly
+                if (velocity > 0 && positionX > window.innerWidth) {
+                    // When moving to the right, reset to the far left
+                    positionX = -300;
+                } else if (velocity < 0 && positionX < -300) {
+                    // When moving to the left, reset to the far right
+                    positionX = window.innerWidth;
+                }
+
+                bubble.style.left = `${positionX}px`;
+            });
+        }
+
 
             setTimeout(() => {
                 canvas.style.opacity = 0;
